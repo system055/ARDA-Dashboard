@@ -1,42 +1,101 @@
-// Particle Background
 tsParticles.load("particles", {
-  particles: {
-    number: { value: 80 },
-    color: { value: "#00f0ff" },
-    shape: { type: "circle" },
-    opacity: { value: 0.5 },
-    size: { value: 3 },
-    move: { enable: true, speed: 2, direction: "none", out_mode: "bounce" },
-    line_linked: { enable: true, distance: 120, color: "#00f0ff", opacity: 0.3, width: 1 }
-  },
-  interactivity: {
-    events: {
-      onhover: { enable: true, mode: "repulse" },
-      onclick: { enable: false },
-      resize: true
-    },
-    modes: {
-      repulse: { distance: 100, duration: 0.4 }
-    }
-  },
-  detectRetina: true
-});
 
-// Cursor glow effect on button
-const startBtn = document.querySelector('.start-btn');
+fullScreen:{enable:false},
 
-startBtn.addEventListener('mousemove', e => {
-  startBtn.style.boxShadow = `
-    0 0 30px #00f0ff,
-    ${e.offsetX - startBtn.offsetWidth/2}px ${e.offsetY - startBtn.offsetHeight/2}px 50px #00f0ff
-  `;
-});
+particles:{
 
-startBtn.addEventListener('mouseleave', () => {
-  startBtn.style.boxShadow = '0 0 30px #00f0ff, 0 0 60px #00f0ff inset';
-});
+number:{
+value:160
+},
 
-// Button click - placeholder for first puzzle/next section
-startBtn.addEventListener('click', () => {
-  alert("Protocol Initialized. First puzzle coming soon.");
-});
+color:{
+value:"#ffffff"
+},
+
+shape:{
+type:"circle"
+},
+
+opacity:{
+value:0.7
+},
+
+size:{
+value:2
+},
+
+links:{
+enable:true,
+distance:130,
+color:"#ffffff",
+opacity:0.25,
+width:1
+},
+
+move:{
+enable:true,
+speed:1.5
+}
+
+},
+
+interactivity:{
+
+events:{
+
+onHover:{
+enable:true,
+mode:["grab","repulse"]
+},
+
+resize:true
+
+},
+
+modes:{
+
+grab:{
+distance:160,
+links:{
+opacity:0.6
+}
+},
+
+repulse:{
+distance:120,
+duration:0.4
+}
+
+}
+
+},
+
+detectRetina:true
+
+})
+
+const btn=document.querySelector(".start-btn")
+
+btn.addEventListener("mousemove",e=>{
+
+const x=e.offsetX
+const y=e.offsetY
+
+btn.style.boxShadow=`
+0 0 25px white,
+${x-100}px ${y-25}px 60px rgba(255,255,255,.4)
+`
+
+})
+
+btn.addEventListener("mouseleave",()=>{
+
+btn.style.boxShadow="0 0 25px white"
+
+})
+
+btn.addEventListener("click",()=>{
+
+alert("Protocol Initialized")
+
+})
