@@ -8,15 +8,25 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* Ensure the button container is above particles */
-.container {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  top: 30%;
+/* Center container perfectly */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-/* Button styling (optional, already in style.css) */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+}
+
+/* Button styling */
 .start-btn {
   cursor: pointer;
   background-color: black;
@@ -25,6 +35,7 @@
   padding: 14px 28px;
   font-size: 18px;
   transition: all 0.3s ease;
+  margin-top: 20px;
 }
 
 .start-btn:hover {
@@ -40,11 +51,18 @@
 
 <!-- Main container -->
 <div class="container">
-<h1 class="title">WELCOME AGENT</h1>
-<p class="subtitle">Your mission begins now</p>
+
+<h1 class="title">ADVANCED RESEARCH PROTOCOL</h1>
+<p class="subtitle">Classified Access Terminal</p>
+
+<p style="font-size:20px; letter-spacing:2px; margin-top:20px;">
+Please authenticate to begin the scavenger mission.
+</p>
+
 <button class="start-btn" onclick="window.location.href='puzzle1.html'">
 INITIALIZE PROTOCOL
 </button>
+
 </div>
 
 <!-- Global scripts -->
