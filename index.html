@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Research Terminal</title>
+<title>Scavenger Hunt</title>
 
 <link rel="stylesheet" href="style.css">
-
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
 
+<!-- Particle background -->
 <div id="particles"></div>
 
+<!-- Main container -->
 <div class="container">
 
-<h1 class="title">ACCESS TERMINAL</h1>
+<h1 class="title">WELCOME AGENT</h1>
+<p class="subtitle">Your mission begins now</p>
 
-<p class="subtitle">AUTHORIZED PERSONNEL ONLY</p>
-
-<button class="start-btn">INITIALIZE PROTOCOL</button>
+<!-- Buttons -->
+<button class="start-btn" onclick="window.location.href='puzzle1.html'">
+INITIALIZE PROTOCOL
+</button>
 
 </div>
 
+<!-- Global scripts -->
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.0/tsparticles.bundle.min.js"></script>
-
 <script src="script.js"></script>
 
 </body>
