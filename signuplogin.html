@@ -1,50 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puzzle 01</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Access</title>
 
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: min(92vw, 420px);
+      text-align: center;
+    }
+
+    .auth-card {
+      background: rgba(0, 0, 0, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      padding: 32px 26px 26px;
+    }
+
+    .title {
+      font-size: 34px;
+      letter-spacing: 4px;
+      margin: 0 0 10px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.45);
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      font-size: 13px;
+      letter-spacing: 3px;
+      opacity: 0.75;
+      text-transform: uppercase;
+    }
+
+    .field {
+      width: 100%;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .field input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 12px;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.85);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .field input:focus {
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.4), 0 0 18px rgba(255,255,255,0.1);
+    }
+
+    .password-row {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .password-row input {
+      flex: 1;
+    }
+
+    .mini-btn {
+      flex: 0 0 auto;
+      padding: 0 14px;
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.85);
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 1px;
+      font-size: 12px;
+      white-space: nowrap;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .mini-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(255,255,255,0.14);
+    }
+
+    .options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 14px 0 18px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .start-btn {
+      width: 100%;
+      margin-top: 6px;
+      padding: 14px 18px;
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.95);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 15px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .start-btn:hover {
+      background: #fff;
+      color: #000;
+      transform: translateY(-1px);
+      box-shadow: 0 0 22px rgba(255,255,255,0.28);
+    }
+
+    .switch-mode {
+      margin-top: 16px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      opacity: 0.85;
+    }
+
+    .link-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .status {
+      margin-top: 14px;
+      min-height: 20px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      opacity: 0.92;
+    }
+
+    .success {
+      display: none;
+      margin-top: 20px;
+      padding: 26px 20px;
+      border: 1px solid rgba(255,255,255,0.9);
+      background: rgba(0,0,0,0.78);
+      box-shadow: 0 0 24px rgba(255,255,255,0.12);
+    }
+
+    .success h2 {
+      margin: 0 0 10px;
+      letter-spacing: 3px;
+      font-size: 22px;
+    }
+
+    .success p {
+      margin: 0;
+      font-size: 14px;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+  </style>
+</head>
 <body>
 
-<div id="particles"></div>
+  <div id="particles"></div>
 
-<div class="container">
-<h1 class="title">PUZZLE 01</h1>
-<p class="subtitle">SOLVE THE EQUATION</p>
+  <div class="container">
+    <div class="auth-card" id="authCard">
+      <h1 class="title">ACCESS TERMINAL</h1>
+      <p class="subtitle" id="modeSubtitle">Create your account</p>
 
-<p style="font-size:28px; margin-top:30px; letter-spacing:2px;">
-(7² × 3) − 20 = ?
-</p>
+      <form id="authForm" autocomplete="on">
+        <div class="field">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter username"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+          />
+        </div>
 
-<input id="answerBox" type="text" placeholder="ENTER ANSWER"
-style="margin-top:40px; padding:14px; font-size:16px; background:black; border:2px solid white; color:white; text-align:center; width:220px; outline:none;">
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-row">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              autocomplete="new-password"
+              required
+            />
+            <button type="button" class="mini-btn" id="togglePassword">SHOW</button>
+          </div>
+        </div>
 
-<br><br>
+        <div class="options">
+          <label>
+            <input type="checkbox" id="rememberMe" />
+            Remember me
+          </label>
+        </div>
 
-<button class="start-btn" onclick="checkAnswer()">SUBMIT</button>
+        <button type="submit" class="start-btn" id="submitBtn">CREATE ACCOUNT</button>
 
-</div>
+        <div class="switch-mode">
+          <span id="switchText">Already have an account?</span>
+          <button type="button" class="link-btn" id="switchModeBtn">Login</button>
+        </div>
 
-<script>
-function checkAnswer(){
-  let answer = document.getElementById("answerBox").value;
-  if(answer === "127"){
-    alert("ACCESS GRANTED");
-    // placeholder for next puzzle
-    window.location.href="puzzle2.html"; 
-  } else {
-    alert("INCORRECT ANSWER");
-  }
-}
-</script>
+        <div class="status" id="status"></div>
+      </form>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.0/tsparticles.bundle.min.js"></script>
-<script src="script.js"></script>
+    <div class="success" id="successCard">
+      <h2>ACCESS GRANTED</h2>
+      <p id="successText"></p>
+    </div>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.0/tsparticles.bundle.min.js"></script>
+  <script src="script.js"></script>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    // Replace these with your PUBLIC values only.
+    // Never use your service role key in browser code.
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+    const authForm = document.getElementById("authForm");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const rememberMeInput = document.getElementById("rememberMe");
+    const togglePasswordBtn = document.getElementById("togglePassword");
+    const switchModeBtn = document.getElementById("switchModeBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const modeSubtitle = document.getElementById("modeSubtitle");
+    const switchText = document.getElementById("switchText");
+    const statusEl = document.getElementById("status");
+    const authCard = document.getElementById("authCard");
+    const successCard = document.getElementById("successCard");
+    const successText = document.getElementById("successText");
+
+    let isLoginMode = false;
+
+    function setStatus(message, isError = false) {
+      statusEl.textContent = message;
+      statusEl.style.color = isError ? "#ff8a8a" : "#ffffff";
+    }
+
+    function makeClient(rememberMe) {
+      return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+          storage: rememberMe ? window.localStorage : window.sessionStorage
+        }
+      });
+    }
+
+    function usernameToEmail(username) {
+      const clean = username.trim().toLowerCase().replace(/[^a-z0-9._-]/g, "");
+      return `${clean}@local.arda`;
+    }
+
+    function refreshModeUI() {
+      if (isLoginMode) {
+        modeSubtitle.textContent = "Login to continue";
+        submitBtn.textContent = "LOGIN";
+        switchText.textContent = "Need an account?";
+        switchModeBtn.textContent = "Create account";
+        passwordInput.autocomplete = "current-password";
+      } else {
+        modeSubtitle.textContent = "Create your account";
+        submitBtn.textContent = "CREATE ACCOUNT";
+        switchText.textContent = "Already have an account?";
+        switchModeBtn.textContent = "Login";
+        passwordInput.autocomplete = "new-password";
+      }
+      setStatus("");
+    }
+
+    togglePasswordBtn.addEventListener("click", () => {
+      const showing = passwordInput.type === "text";
+      passwordInput.type = showing ? "password" : "text";
+      togglePasswordBtn.textContent = showing ? "SHOW" : "HIDE";
+    });
+
+    switchModeBtn.addEventListener("click", () => {
+      isLoginMode = !isLoginMode;
+      refreshModeUI();
+    });
+
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      const rememberMe = rememberMeInput.checked;
+
+      if (!username || !password) {
+        setStatus("Enter a username and password.", true);
+        return;
+      }
+
+      const supabase = makeClient(rememberMe);
+      const email = usernameToEmail(username);
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = isLoginMode ? "LOGGING IN..." : "CREATING...";
+
+        if (isLoginMode) {
+          const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) throw error;
+
+          authCard.style.display = "none";
+          successCard.style.display = "block";
+          successText.textContent = `Welcome back, ${username}. Your session is now active.`;
+        } else {
+          const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                username
+              }
+            }
+          });
+
+          if (error) throw error;
+
+          authCard.style.display = "none";
+          successCard.style.display = "block";
+          successText.textContent = `Account created for ${username}. Your session is now active.`;
+        }
+      } catch (err) {
+        setStatus(err?.message || "Something went wrong.", true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = isLoginMode ? "LOGIN" : "CREATE ACCOUNT";
+      }
+    });
+
+    refreshModeUI();
+  </script>
 </body>
 </html>
