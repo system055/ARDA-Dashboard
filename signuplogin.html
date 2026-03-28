@@ -6,30 +6,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ARDA Access Terminal</title>
+<title>ARDA Access</title>
 
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 
-html, body{
+html,body{
 margin:0;
-padding:0;
 height:100%;
 background:black;
-font-family:'JetBrains Mono', monospace;
+font-family:'JetBrains Mono',monospace;
 display:flex;
 align-items:center;
 justify-content:center;
 color:white;
-overflow:hidden;
 }
 
 #particles{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
 z-index:1;
@@ -37,52 +33,53 @@ z-index:1;
 
 .container{
 z-index:10;
-width:360px;
-text-align:center;
+width:380px;
 }
 
 .auth-box{
 border:2px solid white;
-padding:30px;
+padding:35px;
 background:black;
+text-align:center;
 }
 
 .title{
 font-size:26px;
 letter-spacing:2px;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
 input{
 width:100%;
-padding:12px;
-margin-top:10px;
+padding:14px;
+margin-top:12px;
 background:black;
 border:2px solid white;
 color:white;
-font-family:'JetBrains Mono', monospace;
-outline:none;
+font-family:'JetBrains Mono',monospace;
+font-size:15px;
 }
 
 .password-row{
 display:flex;
-gap:6px;
+margin-top:12px;
 }
 
 .password-row input{
 flex:1;
+margin-top:0;
 }
 
-.toggle-pass{
+.toggle{
+width:70px;
 border:2px solid white;
 background:black;
 color:white;
-padding:12px;
 cursor:pointer;
 }
 
-.toggle-pass:hover{
-box-shadow:0 0 10px white;
+.toggle:hover{
+box-shadow:0 0 12px white;
 }
 
 .start-btn{
@@ -100,13 +97,8 @@ cursor:pointer;
 box-shadow:0 0 25px white;
 }
 
-.remember{
-margin-top:10px;
-font-size:14px;
-}
-
 .switch{
-margin-top:15px;
+margin-top:18px;
 font-size:14px;
 }
 
@@ -119,7 +111,7 @@ text-decoration:underline;
 }
 
 .status{
-margin-top:12px;
+margin-top:14px;
 font-size:14px;
 min-height:18px;
 }
@@ -136,46 +128,19 @@ min-height:18px;
 
 <div class="auth-box">
 
-<div class="title" id="modeTitle">CREATE ACCOUNT</div>
+<div class="title" id="title">CREATE ACCOUNT</div>
 
-<form id="authForm">
-
-<input
-id="username"
-type="text"
-placeholder="Username"
-autocomplete="username"
-required
->
+<input id="username" placeholder="Username">
 
 <div class="password-row">
 
-<input
-id="password"
-type="password"
-placeholder="Password"
-autocomplete="current-password"
-required
->
+<input id="password" type="password" placeholder="Password">
 
-<button type="button" class="toggle-pass" onclick="togglePassword()">
-SHOW
-</button>
+<button class="toggle" onclick="togglePassword()">SHOW</button>
 
 </div>
 
-<div class="remember">
-<label>
-<input type="checkbox" id="remember">
-Remember Me
-</label>
-</div>
-
-<button class="start-btn" type="submit" id="submitBtn">
-CREATE ACCOUNT
-</button>
-
-</form>
+<button class="start-btn" id="submitBtn">CREATE ACCOUNT</button>
 
 <div class="switch">
 
@@ -191,133 +156,111 @@ CREATE ACCOUNT
 
 </div>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-const SUPABASE_URL = "https://psiqmduohdryllkkqucb.supabase.co"
-
-const SUPABASE_KEY =
+const supabase = window.supabase.createClient(
+"https://psiqmduohdryllkkqucb.supabase.co",
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzaXFtZHVvaGRyeWxsa2txdWNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NzgzOTEsImV4cCI6MjA5MDE1NDM5MX0.CpPpFPwnAlFnzk43dCzRoJWWRWMQpQPpPkQ7giTyIfg"
-
-const supabaseClient = supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
 )
 
 let loginMode = false
 
-
-
 function togglePassword(){
 
-const pass = document.getElementById("password")
+const pass=document.getElementById("password")
 
-if(pass.type === "password"){
-pass.type = "text"
-}else{
-pass.type = "password"
-}
+pass.type=pass.type==="password"?"text":"password"
 
 }
-
-
 
 function toggleMode(){
 
-loginMode = !loginMode
+loginMode=!loginMode
 
 if(loginMode){
 
-document.getElementById("modeTitle").innerText = "LOGIN"
-
-document.getElementById("submitBtn").innerText = "LOGIN"
-
-document.getElementById("switchText").innerText = "Need an account?"
+title.innerText="LOGIN"
+submitBtn.innerText="LOGIN"
+switchText.innerText="Need an account?"
 
 }else{
 
-document.getElementById("modeTitle").innerText = "CREATE ACCOUNT"
-
-document.getElementById("submitBtn").innerText = "CREATE ACCOUNT"
-
-document.getElementById("switchText").innerText = "Already have an account?"
+title.innerText="CREATE ACCOUNT"
+submitBtn.innerText="CREATE ACCOUNT"
+switchText.innerText="Already have an account?"
 
 }
 
 }
 
+submitBtn.onclick = async () => {
 
+const username=document.getElementById("username").value.trim().toLowerCase()
+const password=document.getElementById("password").value
+const status=document.getElementById("status")
 
-document
-.getElementById("authForm")
-.addEventListener("submit", async function(e){
+if(!username || !password){
+status.innerText="Enter username and password"
+return
+}
 
-e.preventDefault()
+const email=username+"@arda-user.com"
 
-const username =
-document.getElementById("username").value
-
-const password =
-document.getElementById("password").value
-
-const email =
-username.toLowerCase() + "@arda.local"
-
-const status =
-document.getElementById("status")
-
-status.innerText = "Processing..."
+status.innerText="Processing..."
 
 try{
 
-let result
-
 if(loginMode){
 
-result =
-await supabaseClient.auth.signInWithPassword({
-email:email,
-password:password
+const {error}=await supabase.auth.signInWithPassword({
+email,
+password
 })
+
+if(error){
+status.innerText=error.message
+return
+}
 
 }else{
 
-result =
-await supabaseClient.auth.signUp({
-email:email,
-password:password
+const {data,error}=await supabase.auth.signUp({
+email,
+password
+})
+
+if(error){
+status.innerText=error.message
+return
+}
+
+await supabase
+.from("users")
+.insert({
+id:data.user.id,
+username
 })
 
 }
 
-if(result.error){
+status.innerText="Access Granted"
 
-status.innerText = result.error.message
-return
-
-}
-
-status.innerText = "Access granted"
-
-setTimeout(() => {
-
-window.location.href = "home.html"
-
+setTimeout(()=>{
+window.location.href="home.html"
 },800)
 
-}catch(err){
+}catch{
 
-status.innerText = "Authentication failed"
+status.innerText="Authentication Failed"
 
 }
 
-})
+}
 
 </script>
 
-<!-- particles -->
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.0/tsparticles.bundle.min.js"></script>
 <script src="script.js"></script>
 
